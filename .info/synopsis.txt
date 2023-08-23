@@ -1,0 +1,1 @@
+Convenient cmdlets and aliases which wrap the `apt-get`, `apt`, and `aptitude` package managers.
