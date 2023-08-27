@@ -3,7 +3,7 @@ $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
 
 
-if (-not (Test-Command apt-get) -and (-not $Global:PWSHRC_FORCE_MODULES_EXPORT_UNSUPPORTED)) {
+if (-not (Test-Command apt-get) -and (-not (Get-Variable -Name PWSHRC_FORCE_MODULES_EXPORT_UNSUPPORTED -Scope Global -ValueOnly -ErrorAction SilentlyContinue))) {
     return
 }
 
@@ -28,7 +28,7 @@ function Invoke-AptPreferred {
 }
 Set-Alias -Name age -Value Invoke-AptPreferred
 
-if ($hasAptitude -and (-not $Global:PWSHRC_FORCE_MODULES_EXPORT_UNSUPPORTED)) {
+if ($hasAptitude -and (-not (Get-Variable -Name PWSHRC_FORCE_MODULES_EXPORT_UNSUPPORTED -Scope Global -ValueOnly -ErrorAction SilentlyContinue))) {
     Set-Alias -Name api -Value aptitude
 }
 
@@ -37,7 +37,7 @@ function Invoke-AptCacheSearch {
 }
 Set-Alias -Name acse -Value Invoke-AptCacheSearch
 
-if ($hasAptitude -and (-not $Global:PWSHRC_FORCE_MODULES_EXPORT_UNSUPPORTED)) {
+if ($hasAptitude -and (-not (Get-Variable -Name PWSHRC_FORCE_MODULES_EXPORT_UNSUPPORTED -Scope Global -ValueOnly -ErrorAction SilentlyContinue))) {
     function Invoke-AptitudeSearch {
         aptitude search @args
     }
@@ -80,7 +80,7 @@ function Invoke-AptCacheShowpkg {
 }
 Set-Alias -Name acsp -Value Invoke-AptCacheShowpkg
 
-if ($hasSudo -and (-not $Global:PWSHRC_FORCE_MODULES_EXPORT_UNSUPPORTED)) {
+if ($hasSudo -and (-not (Get-Variable -Name PWSHRC_FORCE_MODULES_EXPORT_UNSUPPORTED -Scope Global -ValueOnly -ErrorAction SilentlyContinue))) {
     function Invoke-AptAutoclean {
         sudo $apt_pref autoclean @args
     }
@@ -186,14 +186,12 @@ if ($hasSudo -and (-not $Global:PWSHRC_FORCE_MODULES_EXPORT_UNSUPPORTED)) {
     }
     Set-Alias -Name di -Value Invoke-DebInstall
 
-    if ($hasAptitude -and (-not $Global:PWSHRC_FORCE_MODULES_EXPORT_UNSUPPORTED)) {
+    if ($hasAptitude -and (-not (Get-Variable -Name PWSHRC_FORCE_MODULES_EXPORT_UNSUPPORTED -Scope Global -ValueOnly -ErrorAction SilentlyContinue))) {
         function Invoke-AptRemoveExcessKernelImages {
             sudo aptitude remove -P "?and(~i~nlinux-(ima|hea) ?not(~n$(uname -r)))"
         }
         Set-Alias -Name kclean -Value Invoke-AptRemoveExcessKernelImages
     }
-} else {
-    append_profile_suggestions "# TODO: 🧙 Install 'sudo'."
 }
 
 function Get-AptInstalledPackages {
@@ -227,7 +225,7 @@ function aar {
 	sudo $apt_pref install $packageName
 }
 
-if ($hasAptitude -and (-not $Global:PWSHRC_FORCE_MODULES_EXPORT_UNSUPPORTED)) {
+if ($hasAptitude -and (-not (Get-Variable -Name PWSHRC_FORCE_MODULES_EXPORT_UNSUPPORTED -Scope Global -ValueOnly -ErrorAction SilentlyContinue))) {
     function New-DebBasic {
         time dpkg-buildpackage -rfakeroot -us -uc @args
     }
